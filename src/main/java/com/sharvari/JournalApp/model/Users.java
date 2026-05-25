@@ -1,6 +1,5 @@
 package com.sharvari.JournalApp.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -30,4 +29,6 @@ public class Users {
 
     @DBRef
     private List<JournalEntry> journalEntryList = new ArrayList<>();
+
+    private List<String> roles;
 }
