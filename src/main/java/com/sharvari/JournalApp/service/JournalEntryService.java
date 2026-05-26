@@ -21,7 +21,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
-    @Transactional
+    //@Transactional
     public void saveEntry(JournalEntry journalEntry, String username)
     {
         Users user = userService.findByUsername(username);
@@ -44,8 +44,11 @@ public class JournalEntryService {
 
     public void deleteById(ObjectId myId, String username) {
         Users user = userService.findByUsername(username);
-        user.getJournalEntryList().removeIf(x -> x.getId().equals(myId));
-        userService.saveEntry(user);
-        journalEntryRepository.deleteById(myId);
+        boolean b = user.getJournalEntryList().removeIf(x -> x.getId().equals(myId));
+        if(b) {
+            userService.saveEntry(user);
+            journalEntryRepository.deleteById(myId);
+        }
     }
+
 }
