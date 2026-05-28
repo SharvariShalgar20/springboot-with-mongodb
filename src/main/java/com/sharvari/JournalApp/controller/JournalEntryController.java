@@ -5,6 +5,8 @@ import com.sharvari.JournalApp.model.Users;
 import com.sharvari.JournalApp.service.JournalEntryService;
 import com.sharvari.JournalApp.service.UserService;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/journal")
 public class JournalEntryController {
 
+    private static final Logger logger = LoggerFactory.getLogger(JournalEntryController.class);
+
     @Autowired
     private JournalEntryService journalEntryService;
     
@@ -34,10 +38,11 @@ public class JournalEntryController {
         Users byUsername = userService.findByUsername(username);
         List<JournalEntry> entries = byUsername.getJournalEntryList();
         if (entries == null || entries.isEmpty()) {
+            logger.info("No journal entries found for user: {}", username);
             return ResponseEntity.noContent().build();
         }
-        ResponseEntity<List<JournalEntry>> ok = ResponseEntity.ok(entries);
-        return ok;
+        logger.info("Found {} journal entries for user: {}", entries.size(), username);
+        return ResponseEntity.ok(entries);
     }
 
     @GetMapping("/id/{myId}")
@@ -52,9 +57,11 @@ public class JournalEntryController {
             Optional<JournalEntry> journalEntry = journalEntryService.findById(myId);
 
             if(journalEntry.isPresent()) {
+                logger.info("Journal entry found. ID: {} for user: {}", myId, username);
                 return new ResponseEntity<>(journalEntry.get(), HttpStatus.OK);
             }
         }
+        logger.warn("Journal entry not found. ID: {} for user: {}", myId, username);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -66,6 +73,7 @@ public class JournalEntryController {
             journalEntryService.saveEntry(journalEntry, username);
             return ResponseEntity.status(HttpStatus.CREATED).body(journalEntry);
         } catch (Exception e) {
+            logger.error("Failed to create journal entry for user. Reason: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
@@ -78,6 +86,8 @@ public class JournalEntryController {
         String username = authentication.getName();
 
         journalEntryService.deleteById(myId, username);
+
+        logger.info("Delete operation completed for entry ID: {} by user: {}", myId, username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -91,6 +101,7 @@ public class JournalEntryController {
         List<JournalEntry> collect = byUsername.getJournalEntryList().stream().filter(x -> x.getId().equals(id)).collect(Collectors.toList());
 
         if (collect.isEmpty()) {
+            logger.warn("Update failed - entry ID: {} not in journal list of user: {}", id, username);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -104,6 +115,7 @@ public class JournalEntryController {
         old.setContent(newEntry.getContent() != null && !newEntry.getContent().isEmpty() ? newEntry.getContent() : old.getContent());
 
         journalEntryService.saveEntry(old);
+        logger.info("Journal entry updated successfully. ID: {} by user: {}", id, username);
         return ResponseEntity.ok(old);
     }
 }
