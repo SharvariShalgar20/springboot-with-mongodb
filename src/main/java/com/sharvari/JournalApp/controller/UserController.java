@@ -1,8 +1,10 @@
 package com.sharvari.JournalApp.controller;
 
+import com.sharvari.JournalApp.api.response.WeatherResponse;
 import com.sharvari.JournalApp.model.Users;
 import com.sharvari.JournalApp.repository.UserRepository;
 import com.sharvari.JournalApp.service.UserService;
+import com.sharvari.JournalApp.service.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private WeatherService weatherService;
+
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody Users user) {
@@ -57,4 +62,17 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+
+    @GetMapping
+    public ResponseEntity<?> getWeatherWithUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weather = weatherService.getWeather("Pune", "India");
+        String username = authentication.getName();
+
+        String greetings = "";
+        if(weather != null) {
+            greetings = " Today's Weather is " + weather.getWeather().get(0).getDescription();
+        }
+        return new ResponseEntity<>("Hi " + username + greetings , HttpStatus.OK);
+    }
 }

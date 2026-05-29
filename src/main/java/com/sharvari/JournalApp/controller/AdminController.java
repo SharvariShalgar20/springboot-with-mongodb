@@ -1,5 +1,6 @@
 package com.sharvari.JournalApp.controller;
 
+import com.sharvari.JournalApp.cache.AppCache;
 import com.sharvari.JournalApp.model.Users;
 import com.sharvari.JournalApp.service.UserService;
 import org.slf4j.Logger;
@@ -16,6 +17,9 @@ import java.util.List;
 public class AdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+
+    @Autowired
+    private AppCache appCache;
 
     @Autowired
     private UserService userService;
@@ -36,5 +40,10 @@ public class AdminController {
     public void createAdmin(@RequestBody Users user){
         userService.saveAdmin(user);
         logger.info("Admin user created: {}", user.getUsername());
+    }
+
+    @GetMapping("clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
     }
 }
