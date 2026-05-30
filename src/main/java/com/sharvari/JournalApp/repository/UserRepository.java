@@ -4,7 +4,7 @@ import com.sharvari.JournalApp.model.Users;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserRepository extends MongoRepository<Users, ObjectId> {
+public interface UserRepository extends MongoRepository<Users, ObjectId> , UserRepositoryCustom {
     Users findByUsername(String username);
 
     void deleteByUsername(String username);
