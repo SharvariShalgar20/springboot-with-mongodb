@@ -22,9 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-
-# Unused Vite default assets
-public/favicon.svg
-public/icons.svg
-src/assets/vite.svg
