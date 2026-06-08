@@ -128,12 +128,23 @@ mvn test
 - Transaction Management
 - Production-Grade Logging
 - Unit & Integration Testing
+- JWT Authentication
+
+---
+
+##  Frontend (React)
+A dynamic user interface has been integrated into the project using **React** to offer a seamless user experience.
+
+### Features
+- Responsive Dashboard
+- Interactive forms for managing Journal Entries
+- Real-time weather display integrated with backend APIs
+- Secure login and registration flows
 
 ---
 
 ##  Future Enhancements
 
-- JWT Authentication
 - Docker Containerization
 - CI/CD Pipeline Integration
 - Kubernetes Deployment
