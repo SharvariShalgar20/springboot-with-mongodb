@@ -2,6 +2,8 @@
 docker pull confluentinc/cp-zookeeper:7.4.0
 docker pull confluentinc/cp-kafka:7.4.0
 
+# make sure this is true in application.properties
+kafka.enabled=true
 
 # Start Kafka
 docker-compose up -d
