@@ -1,0 +1,10 @@
+# Pull images manually first
+docker pull confluentinc/cp-zookeeper:7.4.0
+docker pull confluentinc/cp-kafka:7.4.0
+
+
+# Start Kafka
+docker-compose up -d
+
+# Stop Kafka
+docker-compose down
