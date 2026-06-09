@@ -1,5 +1,7 @@
 package com.sharvari.JournalApp.service;
 
+import com.sharvari.JournalApp.event.UserRegisteredEvent;
+import com.sharvari.JournalApp.kafka.UserRegisteredProducer;
 import com.sharvari.JournalApp.model.Users;
 import com.sharvari.JournalApp.repository.UserRepository;
 import org.bson.types.ObjectId;
@@ -24,6 +26,9 @@ public class UserService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired(required = false)
+    private UserRegisteredProducer userRegisteredProducer;
+
     public void saveEntry(Users user) {
 
         try {
@@ -42,6 +47,17 @@ public class UserService {
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
             logger.info("New user registered successfully: {}", user.getUsername());
+
+            if (userRegisteredProducer != null
+                    && user.getEmail() != null
+                    && !user.getEmail().isEmpty()) {
+                UserRegisteredEvent event = new UserRegisteredEvent(
+                        user.getUsername(),
+                        user.getEmail()
+                );
+                userRegisteredProducer.publishUserRegistered(event);
+            }
+
         } catch (Exception e) {
             logger.error("Failed to register new user: {}. Reason: {}", user.getUsername(), e.getMessage());
             throw e;
