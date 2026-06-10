@@ -32,10 +32,10 @@ public class SpringSecurity {
 
         return http.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                    .requestMatchers("/public/**").permitAll()
-                    .requestMatchers("/journal/**", "/user/**").authenticated()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated())
+                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/journal/**", "/user/**").authenticated().requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
