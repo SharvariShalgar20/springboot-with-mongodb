@@ -5,6 +5,8 @@ import com.sharvari.JournalApp.model.Users;
 import com.sharvari.JournalApp.repository.UserRepository;
 import com.sharvari.JournalApp.service.UserService;
 import com.sharvari.JournalApp.service.WeatherService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Tag(name = "User", description = "User profile and weather info")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -37,6 +39,7 @@ public class UserController {
     private WeatherService weatherService;
 
 
+    @Operation(summary = "Update User details")
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody Users user) {
 
@@ -53,6 +56,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @Operation(summary = "delete User with user's id")
     @DeleteMapping
     public ResponseEntity<?> deleteUserById(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,6 +67,7 @@ public class UserController {
     }
 
 
+    @Operation(summary = "get Username with weather")
     @GetMapping
     public ResponseEntity<?> getWeatherWithUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

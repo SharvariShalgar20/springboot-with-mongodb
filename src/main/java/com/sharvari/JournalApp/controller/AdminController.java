@@ -3,6 +3,7 @@ package com.sharvari.JournalApp.controller;
 import com.sharvari.JournalApp.cache.AppCache;
 import com.sharvari.JournalApp.model.Users;
 import com.sharvari.JournalApp.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Admin", description = "Admin-only operations")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
