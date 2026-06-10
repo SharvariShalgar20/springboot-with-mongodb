@@ -1,0 +1,2 @@
+# Start your Spring Boot app and open:
+http://localhost:8080/swagger-ui/index.html
