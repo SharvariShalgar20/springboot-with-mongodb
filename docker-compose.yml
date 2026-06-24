@@ -44,7 +44,7 @@ services:
       - redis
       - mongodb
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/yourdbname
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/journalDb
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
