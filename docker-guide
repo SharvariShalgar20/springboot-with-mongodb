@@ -1,0 +1,18 @@
+step 1 : Build JAR
+
+mvn clean package -DskipTests
+
+step 2 : add MongoDB and Redis as services in your docker-compose.yml and stop running them on localhost
+
+step 3 : create dockerfile
+
+step 4 : Build image + run everything
+
+docker-compose up --build
+
+#Note
+docker-compose up --build — use this when you made code changes (rebuilds the image with new JAR)
+docker-compose up — use this when nothing changed, just want to start containers
+
+docker-compose down -v
+use -v to avoid the Zookeeper stale node issue next time you start up.
