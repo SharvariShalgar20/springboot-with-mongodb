@@ -48,11 +48,24 @@ docker-compose up -d
 
 ---
 
-###  JournalEntryController Controller
+###  JournalEntry Controller
 
-| # | Endpoint                | Method | Description                     | Auth   | Status |
-|---|-------------------------|--------|---------------------------------|--------|--------|
-| 1 | `/journal`              | POST   | Create journal entry            | needed |  Pass  |
+| # | Endpoint           | Method | Description                          | Auth   | Status |
+|---|--------------------|--------|--------------------------------------|--------|--------|
+| 1 | `/journal`         | POST   | Create journal entry                 | needed |  Pass  |
+| 2 | `/journal`         | GET    | Get all the journal entries          | needed |  Pass  |
+| 3 | `/journal/id/{id}` | GET    | Get journal by Journal id            | needed |  Pass  |
+| 4 | `/journal/id/{id}` | DELETE | Delete journal entry with journal id | needed |  Pass  |
+| 5 | `/journal/id/{id}` | PUT    | Update journal entry by journal id   | needed |  Pass  |
+
+---
+
+###  User Controller
+
+| # | Endpoint | Method | Description                  | Auth   | Status |
+|---|----------|--------|------------------------------|--------|--------|
+| 1 | `/user`  | DELETE | delete user with valid token | needed |  Pass  |
+| 2 | `/user`  | PUT    | Update user details          | needed |  Pass  |
 
 ---
 
@@ -116,3 +129,5 @@ db.journal_entries.find({ userId: ObjectId("...") }).pretty()
 - ✅ JWT contains correct `userId` — journal entries scoped to that user
 
 ---
+
+All endpoints were tested using the included Postman collection located in `postman/JournalApp.postman_collection.json`.

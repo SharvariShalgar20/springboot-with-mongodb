@@ -1,0 +1,318 @@
+{
+  "info": {
+    "_postman_id": "c18830d8-ca90-43e7-a95e-c342d506fd79",
+    "name": "Journal-App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54906708",
+    "_collection_link": "https://go.postman.co/collection/54906708-c18830d8-ca90-43e7-a95e-c342d506fd79?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "public-signup",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"kanad\",\r\n    \"password\": \"pass1234\",\r\n    \"email\": \"kanad@gmail.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/public/signup",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "public",
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "public-login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"kanad\",\r\n    \"password\": \"pass1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/public/login",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "public",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Journal-post",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"texting\",\r\n    \"content\": \"texting who??\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/journal",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "journal"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Journal-getAll",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"texting\",\r\n    \"content\": \"texting who??\"\r\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/journal",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "journal"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Journal-getById",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"texting\",\r\n    \"content\": \"texting who??\"\r\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/journal/id/6a3f69d559fd593f6051d3c9",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "journal",
+            "id",
+            "6a3f69d559fd593f6051d3c9"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "journal-delete",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"texting\",\r\n    \"content\": \"texting who??\"\r\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/journal/id/6a3f6a2a59fd593f6051d3ca",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "journal",
+            "id",
+            "6a3f6a2a59fd593f6051d3ca"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "journal-update",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\" : \"what are you doing\",\r\n    \"content\" : \"texting..\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/journal/id/6a3f69d559fd593f6051d3c9",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "journal",
+            "id",
+            "6a3f69d559fd593f6051d3c9"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "user-update",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"shravu\",\r\n    \"password\" : \"pass1234\",\r\n    \"email\" : \"shravu@gmail.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/user",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "user"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "user-delete",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"shravu\",\r\n    \"password\" : \"pass1234\",\r\n    \"email\" : \"shravu@gmail.com\"\r\n}"
+        },
+        "url": {
+          "raw": "localhost:8080/user",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "user"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
