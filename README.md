@@ -1,160 +1,86 @@
-# JournalApp (Spring Boot + MongoDB)
+# JournalApp - Spring Boot Architecture
 
-A production-ready Spring Boot REST API application designed as a secure journaling platform. The application leverages MongoDB for data persistence and incorporates enterprise-grade features such as authentication, role-based access control, Redis caching, automated email scheduling, external API integrations, transactional data handling, and comprehensive logging.
-
----
-
-##  Features
-
-###  Authentication & Authorization
-- Secure user authentication using Spring Security.
-- Role-Based Access Control (RBAC) with separate Admin and Public endpoints.
-- Protected APIs ensuring users can only access and modify their own journal data.
-
-###  Journal Management
-- Create, Read, Update, and Delete (CRUD) journal entries.
-- Associate journal entries with user accounts using MongoDB DBRef relationships.
-- Transactional operations to maintain data consistency.
-
-###  Weather API Integration
-- Integrated third-party Weather API.
-- Fetch real-time weather information for users.
-- Weather insights available within the journaling ecosystem.
-
-###  Redis Caching
-- Implemented Redis caching for weather API responses.
-- Reduced API latency and minimized external API requests.
-- Improved scalability and performance.
-
-###  Automated Email Scheduler
-- Integrated Spring Mail support.
-- Sends scheduled reminders and notifications to users.
-- Background task execution using Spring Scheduling.
-
-###  Logging & Monitoring
-- Integrated SLF4J and Logback logging framework.
-- Layer-wise logging across Controllers, Services, and Security components.
-- Simplified debugging and production monitoring.
-
-###  Database Transactions
-- Applied `@Transactional` for multi-document operations.
-- Ensures atomicity when creating journal entries and linking them to users.
-- Prevents inconsistent data states during failures.
+A full-stack, secure Journaling Application built using **Spring Boot**, **MongoDB**, and **Redis**, featuring an integrated user management system, asynchronous email notifications via **Apache Kafka**, interactive API documentation with **Swagger**, and seamless containerization using **Docker**. It also includes a modern, responsive web user interface.
 
 ---
 
-##  Project Structure
+## What the Project Does
 
-```text
-src
-├── main
-│   ├── java
-│   │   ├── controller
-│   │   ├── service
-│   │   ├── repository
-│   │   ├── model
-│   │   ├── config
-│   │   └── scheduler
-│   └── resources
-│       └── application.properties
-│
-└── test
-    ├── UserServiceTest
-    └── JournalEntryControllerTest
-```
+This application serves as a personal journaling platform where multiple users can register, authenticate securely, and manage their own private journal entries. 
+
+*   **User Management & Security:** Secure registration and login flow using state-of-the-art authentication.
+*   **Journal Entries (CRUD):** Users can create, read, update, and delete personalized journal logs.
+*   **Asynchronous Processing:** Automatically triggers background events (like welcome notifications) upon user registration using an event-driven pattern.
+*   **Fast Caching & Session Management:** Utilizes an in-memory data store to cache frequent database lookups or session tracking for optimal performance.
+*   **API Exploration:** Developers can interact with and test all backend endpoints via an interactive UI.
 
 ---
 
-##  Getting Started
+## Architecture & Tech Stack
+
+### Backend
+*   **Framework:** Spring Boot (Java)
+*   **Database:** MongoDB (NoSQL database for storing unstructured journal documents and user profiles)
+*   **Caching & Session Storage:** Redis (In-memory data structure store)
+*   **Security:** Spring Security with JSON Web Tokens (JWT) for stateless authentication.
+*   **Messaging Broker:** Apache Kafka (Asynchronous user registration event processing)
+*   **API Documentation:** Springdoc OpenAPI / Swagger UI
+
+### Frontend
+*   **Framework:** Vite-powered modern UI layer package for a lightweight, fast web interface.
+
+### DevOps & Containerization
+*   **Containerization:** Docker & Docker Compose
+
+---
+
+## Project Document Details & Structure
+
+Your project repository includes dedicated configuration and documentation blueprints to ensure easy setup and thorough testing:
+
+### 1. Containerization (`docker-compose.yml`)
+The project is completely containerized, allowing you to spin up the entire ecosystem with a single command. It coordinates:
+*   **MongoDB:** Stores user data and journal collections locally within a reliable network alias.
+*   **Apache Kafka & Zookeeper:** Manages event streams and message topics for the asynchronous consumer-producer registration flow.
+*   **Redis:** Acts as an ultra-fast data cache layer to support high-throughput operations, stores frequently used weather responses with name of city.
+
+### 2. Testing Blueprint (`TESTING.md`)
+A dedicated test-case document outlining QA methodologies, API compliance checks, and verifying edge-case scenarios for endpoint validation.
+
+### 3. Postman Collection (`/postman`)
+A centralized directory containing exported JSON formats of all API HTTP requests (GET, POST, PUT, DELETE). This allows developers to instantly import routes into Postman for rapid automated or manual API testing.
+
+---
+
+## Security Workflow
+
+1. **Public Routes:** Anyone can access the Swagger documentation or hit the public endpoint (`/public`) to register or login.
+2. **Authentication:** Logging in issues a secure **JSON Web Token (JWT)**.
+3. **Protected Routes:** All user profile and journal management endpoints are protected by a custom `JwtFilter`. Subsequent requests must pass the token in the `Authorization: Bearer <token>` header.
+
+---
+
+## Asynchronous Event Flow (Kafka)
+
+When a new user signs up:
+1. `UserService` triggers a producer event (`UserRegisterProducer.java`).
+2. A payload mapping (`UserRegisteredEvent.java`) is serialized into JSON via a configured `ObjectMapper` Bean.
+3. The message is pushed to a Kafka topic.
+4. `UserRegisterConsumer.java` asynchronously listens to the topic to process background tasks (e.g., preparing automated welcome alerts) without blocking the user's HTTP request thread.
+
+---
+
+## Getting Started
 
 ### Prerequisites
+*   Java 17 or higher
+*   Node.js & npm (for the frontend UI)
+*   Docker & Docker Compose
 
-- Java 17+
-- Maven
-- MongoDB
-- Redis
+### Running the App with Docker
 
-### Clone Repository
-
-```bash
-git clone https://github.com/your-username/journal-app.git
-cd journal-app
-```
-
-### Configure Application
-
-Update `application.properties`:
-
-```properties
-spring.data.mongodb.uri=your_mongodb_connection_string
-
-spring.redis.host=localhost
-spring.redis.port=6379
-
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=your_email
-spring.mail.password=your_app_password
-```
-
-### Build Project
-
-```bash
-mvn clean install
-```
-
-### Run Application
-
-```bash
-mvn spring-boot:run
-```
-
-### Run Tests
-
-```bash
-mvn test
-```
-
----
-
-## 🔑 Key Highlights
-
-- Spring Security Authentication
-- Role-Based Access Control (RBAC)
-- MongoDB Integration
-- Redis Caching
-- External Weather API Integration
-- Automated Email Scheduling
-- Transaction Management
-- Production-Grade Logging
-- Unit & Integration Testing
-- JWT Authentication
-
----
-
-##  Frontend (React)
-A dynamic user interface has been integrated into the project using **React** to offer a seamless user experience.
-
-### Features
-- Responsive Dashboard
-- Interactive forms for managing Journal Entries
-- Real-time weather display integrated with backend APIs
-- Secure login and registration flows
-
----
-
-##  Future Enhancements
-
-- Docker Containerization
-- CI/CD Pipeline Integration
-- Kubernetes Deployment
-- Swagger/OpenAPI Documentation
-- Kafka Event Streaming
-
----
-
-##  Author
-
-**Sharvari**
-
-Spring Boot | Java Backend Developer | MongoDB | Redis | REST APIs
+1. Clone the repository and build the jar file.
+2. Spin up the infrastructure environment:
+   ```bash
+   docker-compose up --build
+3. Access the interactive Swagger API documentation at the whitelisted security endpoint to inspect parameters and try out endpoints live.
